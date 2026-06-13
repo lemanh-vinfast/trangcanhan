@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang thông tin cá nhân - Sale chuyên nghiệp</title>
+  <meta name="description" content="Trang thông tin cá nhân chuyên nghiệp cho sale: thông tin liên hệ, ưu đãi theo tháng, sản phẩm và tư vấn nhanh." />
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(24,110,255,.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(17,185,129,.10), transparent 28%),
+        linear-gradient(180deg,#081120 0%,#0b1528 35%,#eef3f8 35%,#f6f8fb 100%);
+      color:#132238;
+      line-height:1.6;
+    }
+
+    :root{
+      --navy:#0b1528;
+      --navy-2:#101f39;
+      --primary:#0d6efd;
+      --green:#119b72;
+      --gold:#d6a548;
+      --white:#fff;
+      --muted:#6b7280;
+      --muted-2:#94a3b8;
+      --card:#ffffff;
+      --border:#e7edf5;
+      --soft:#f7fafc;
+      --shadow:0 14px 40px rgba(10,24,45,.10);
+      --shadow-2:0 20px 60px rgba(6,18,40,.16);
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+    .container{width:min(1180px,92%);margin:auto}
+    .section{padding:34px 0}
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      color:#fff;
+      padding:8px 14px;border-radius:999px;
+      font-size:13px;font-weight:700;backdrop-filter: blur(10px);
+    }
+
+    /* HEADER */
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter: blur(14px);
+      background:rgba(11,21,40,.75);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .topbar-inner{
+      min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px
+    }
+    .brand{
+      display:flex;align-items:center;gap:14px;color:#fff
+    }
+    .brand-logo{
+      width:46px;height:46px;border-radius:14px;
+      background:linear-gradient(135deg,var(--gold),#f8df8b);
+      color:#10203b;font-weight:900;display:grid;place-items:center;
+      box-shadow:0 8px 24px rgba(214,165,72,.35);
+    }
+    .brand h1{font-size:18px;line-height:1.2}
+    .brand p{font-size:12px;color:#c7d2e3}
+    .nav-links{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .nav-links a{
+      color:#dbe4f3;font-weight:700;font-size:14px;padding:10px 14px;border-radius:10px;
+    }
+    .nav-links a:hover{background:rgba(255,255,255,.08)}
+    .header-cta{
+      background:linear-gradient(135deg,var(--gold),#f3d488);
+      color:#10203b;font-weight:900;padding:12px 16px;border-radius:12px;
+      box-shadow:0 10px 22px rgba(214,165,72,.26);
+    }
+
+    /* HERO */
+    .hero{
+      padding:44px 0 28px;
+      color:#fff;
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:stretch
+    }
+    .hero-left{
+      padding:34px;border-radius:28px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05)),
+        linear-gradient(135deg,#0c1a31,#13274a 65%,#123463 100%);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:var(--shadow-2);
+      position:relative;overflow:hidden;
+    }
+    .hero-left::before{
+      content:"";
+      position:absolute;right:-80px;top:-60px;width:240px;height:240px;border-radius:50%;
+      background:radial-gradient(circle, rgba(214,165,72,.40), transparent 65%);
+    }
+    .hero-left h2{
+      font-size:clamp(30px,4.2vw,54px);
+      line-height:1.08;
+      margin:14px 0 14px;
+      max-width:760px;
+    }
+    .hero-left p{
+      font-size:16px;color:#d8e2f0;max-width:760px
+    }
+    .hero-actions{
+      display:flex;flex-wrap:wrap;gap:12px;margin-top:22px
+    }
+    .btn{
+      min-height:52px;padding:13px 18px;border-radius:14px;
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:10px;font-weight:800;border:none;cursor:pointer;transition:.2s
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      color:#10203b;background:linear-gradient(135deg,var(--gold),#f1d27f);
+      box-shadow:0 12px 26px rgba(214,165,72,.28)
+    }
+    .btn-secondary{
+      color:#fff;background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18)
+    }
+
+    .hero-right{
+      display:grid;gap:18px
+    }
+    .profile-card,.floating-card{
+      background:rgba(255,255,255,.95);
+      color:#12243f;border-radius:26px;padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .profile-head{display:flex;align-items:center;gap:16px}
+    .avatar{
+      width:92px;height:92px;border-radius:24px;
+      background:linear-gradient(135deg,#e8f1ff,#d9f5ee);
+      display:grid;place-items:center;font-weight:900;font-size:30px;color:#0d3a68;
+      overflow:hidden;border:1px solid #e2e8f0
+    }
+    .profile-head h3{font-size:24px;line-height:1.2}
+    .profile-head p{color:var(--muted);font-weight:600}
+    .contact-list{display:grid;gap:10px;margin-top:18px}
+    .contact-item{
+      display:flex;align-items:flex-start;gap:12px;
+      padding:12px 14px;border:1px solid var(--border);border-radius:16px;background:#fff
+    }
+    .contact-icon{
+      width:38px;height:38px;border-radius:12px;
+      display:grid;place-items:center;
+      background:#f1f6fd;color:#0d60cb;font-weight:900;flex:0 0 38px
+    }
+    .contact-title{font-size:12px;color:#64748b;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+    .contact-text{font-weight:700}
+    .social-actions{
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px
+    }
+    .social-btn{
+      padding:12px 14px;border-radius:14px;font-weight:800;text-align:center;border:1px solid var(--border);
+      background:#fff
+    }
+    .social-btn.zalo{color:#0068ff}
+    .social-btn.fb{color:#1877f2}
+    .social-btn.page{color:#a000ff}
+    .social-btn.call{color:#119b72}
+
+    .floating-card{
+      background:linear-gradient(135deg,#fff8e8,#ffffff);
+      border:1px solid #f5e4b8;
+    }
+    .floating-card h4{font-size:20px;color:#8a5b08;margin-bottom:8px}
+    .floating-card ul{padding-left:20px}
+    .floating-card li{margin:6px 0}
+
+    /* STATS */
+    .stats{
+      margin-top:18px;
+      display:grid;grid-template-columns:repeat(4,1fr);gap:14px
+    }
+    .stat{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;padding:16px;color:#fff;backdrop-filter: blur(10px);
+    }
+    .stat strong{display:block;font-size:26px}
+    .stat span{color:#d4ddec;font-size:13px}
+
+    /* CONTENT */
+    .content-wrap{padding-top:10px}
+    .section-title{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:18px}
+    .section-title h3{
+      font-size:30px;line-height:1.15;color:#10203b
+    }
+    .section-title p{color:var(--muted)}
+    .cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{
+      background:var(--card);border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:var(--shadow)
+    }
+
+    .feature-card{
+      position:relative;overflow:hidden
+    }
+    .feature-card::before{
+      content:"";
+      position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;
+      background:radial-gradient(circle, rgba(13,110,253,.10), transparent 65%);
+    }
+    .feature-icon{
+      width:58px;height:58px;border-radius:18px;background:linear-gradient(135deg,#edf5ff,#ecfff8);
+      display:grid;place-items:center;font-size:24px;margin-bottom:14px
+    }
+    .feature-card h4{font-size:20px;margin-bottom:8px}
+
+    /* MONTH PROMO */
+    .promo-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .promo-main{
+      background:linear-gradient(135deg,#0e1e38,#17315a);
+      color:#fff;border-radius:28px;padding:28px;border:1px solid rgba(255,255,255,.08);
+      box-shadow:var(--shadow-2);position:relative;overflow:hidden
+    }
+    .promo-main::after{
+      content:"ƯU ĐÃI";
+      position:absolute;right:-26px;top:20px;transform:rotate(30deg);
+      background:linear-gradient(135deg,var(--gold),#f8dc94);color:#10203b;
+      padding:8px 44px;font-size:13px;font-weight:900
+    }
+    .promo-main h4{font-size:30px;margin-bottom:10px}
+    .promo-main ul{padding-left:20px;margin-top:10px}
+    .promo-main li{margin:7px 0;color:#dbe4f3}
+    .promo-side{
+      display:grid;gap:18px
+    }
+    .mini-card{
+      background:#fff;border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:var(--shadow)
+    }
+    .mini-card h5{font-size:19px;margin-bottom:8px}
+    .mini-card p{color:var(--muted)}
+    .bullet{padding-left:18px}
+    .bullet li{margin:6px 0}
+
+    /* PRODUCTS */
+    .products{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:18px
+    }
+    .product-card{
+      background:#fff;border:1px solid var(--border);border-radius:24px;overflow:hidden;
+      box-shadow:var(--shadow);transition:.22s;cursor:pointer
+    }
+    .product-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(10,24,45,.14)}
+    .product-top{
+      min-height:180px;
+      background:
+        radial-gradient(circle at top right, rgba(214,165,72,.20), transparent 28%),
+        linear-gradient(135deg,#e9f2ff,#dff7f0);
+      display:grid;place-items:center;padding:18px
+    }
+    .product-badge{
+      width:110px;height:110px;border-radius:28px;
+      background:linear-gradient(135deg,#0f2b55,#18498d);
+      display:grid;place-items:center;color:#fff;font-size:28px;font-weight:900;
+      box-shadow:0 12px 30px rgba(14,43,85,.28)
+    }
+    .product-body{padding:20px}
+    .product-body h4{font-size:24px;margin-bottom:8px;color:#10203b}
+    .price{color:#d97706;font-weight:900;margin:8px 0 12px}
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{
+      padding:6px 10px;border-radius:999px;background:#eef6ff;color:#12467b;font-size:12px;font-weight:800
+    }
+    .product-cta{
+      margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px
+    }
+    .more{
+      color:#0d6efd;font-weight:800
+    }
+
+    /* DETAIL */
+    .detail-box{display:none}
+    .detail-box.active{display:block}
+    .detail-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px}
+    .detail-visual{
+      min-height:320px;border-radius:26px;
+      background:
+        radial-gradient(circle at top right, rgba(214,165,72,.22), transparent 25%),
+        linear-gradient(135deg,#eff5ff,#e4faf4);
+      display:grid;place-items:center;
+      border:1px solid var(--border)
+    }
+    .detail-badge{
+      width:160px;height:160px;border-radius:38px;
+      background:linear-gradient(135deg,#0b2242,#1b4f95);
+      display:grid;place-items:center;color:#fff;font-size:44px;font-weight:900;
+      box-shadow:0 18px 40px rgba(12,34,66,.25)
+    }
+    .detail-panel{
+      background:#fff;border:1px solid var(--border);border-radius:26px;padding:24px;box-shadow:var(--shadow)
+    }
+    .detail-panel h4{font-size:32px;color:#10203b}
+    .detail-panel p{color:#475569}
+    .detail-list{padding-left:20px;margin-top:12px}
+    .detail-list li{margin:7px 0}
+    .detail-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn-outline{
+      min-height:50px;padding:12px 16px;border-radius:14px;font-weight:800;
+      border:1px solid #cfe0f3;background:#fff;color:#0e315f;cursor:pointer
+    }
+
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .check-list{padding-left:20px}
+    .check-list li{margin:8px 0}
+    .quote{
+      background:linear-gradient(135deg,#fffaf0,#ffffff);
+      border:1px solid #f0dfb4
+    }
+
+    /* FOOTER CTA */
+    .footer-cta{
+      background:linear-gradient(135deg,#0e1d36,#17325d);
+      color:#fff;border-radius:28px;padding:30px;box-shadow:var(--shadow-2)
+    }
+    .footer-cta-grid{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center
+    }
+    .footer-cta h4{font-size:34px;line-height:1.14;margin-bottom:10px}
+    .footer-cta p{color:#d8e3f1}
+    .footer-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+    .footer{
+      text-align:center;color:#64748b;padding:28px 0 90px;font-size:14px
+    }
+
+    /* STICKY MOBILE */
+    .sticky-bar{
+      position:fixed;left:0;right:0;bottom:12px;display:none;z-index:60
+    }
+    .sticky-inner{
+      width:min(560px,92%);margin:auto;
+      background:rgba(255,255,255,.92);backdrop-filter: blur(10px);
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:18px;padding:10px;
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;
+      box-shadow:0 16px 34px rgba(2,12,27,.18)
+    }
+    .sticky-inner a{
+      min-height:48px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900
+    }
+    .sticky-inner .call{background:#119b72;color:#fff}
+    .sticky-inner .zalo{background:#0068ff;color:#fff}
+
+    @media (max-width: 980px){
+      .hero-grid,.promo-grid,.cards-3,.products,.about-grid,.footer-cta-grid,.detail-grid{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr 1fr}
+      .footer-buttons{justify-content:flex-start}
+    }
+    @media (max-width: 760px){
+      .topbar-inner{flex-wrap:wrap;padding:12px 0}
+      .nav-links{display:none}
+      .hero-left,.profile-card,.floating-card,.card,.promo-main,.mini-card,.detail-panel,.footer-cta{padding:20px}
+      .section-title h3{font-size:24px}
+      .hero-left h2{font-size:30px}
+      .profile-head{align-items:flex-start}
+      .social-actions{grid-template-columns:1fr 1fr}
+      .stats{grid-template-columns:1fr 1fr}
+      .sticky-bar{display:block}
+      body{padding-bottom:88px}
+    }
+    @media (max-width: 480px){
+      .stats,.social-actions{grid-template-columns:1fr}
+      .brand{width:100%}
+      .header-cta{width:100%;text-align:center}
+      .profile-head{flex-direction:column}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-logo" id="brandLogo">LM</div>
+        <div>
+          <h1 id="brandName">Lê Minh Mạnh</h1>
+          <p id="brandSub">Tư vấn bán hàng chuyên nghiệp</p>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#gioi-thieu">Giới thiệu</a>
+        <a href="#uu-dai">Ưu đãi tháng</a>
+        <a href="#san-pham">Sản phẩm</a>
+        <a href="#lien-he">Liên hệ</a>
+      </nav>
+
+      <a class="header-cta" id="topCallBtn" href="#">📞 Gọi tư vấn ngay</a>
+    </div>
+  </header>
+
+  <section class="hero" id="gioi-thieu">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <div class="chip">✨ Trang thông tin cá nhân dành cho khách quét QR</div>
+        <h2 id="heroTitle">Tư vấn chuyên nghiệp, báo giá nhanh, hỗ trợ tận tâm từ lúc chọn xe đến khi nhận xe</h2>
+        <p id="heroDesc">
+          Chào mừng anh/chị đến với trang thông tin cá nhân của tôi. Tại đây, anh/chị có thể gọi trực tiếp, nhắn Zalo, xem chính sách ưu đãi từng tháng và bấm vào từng sản phẩm để xem chi tiết.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" id="heroCallBtn" href="#">📞 Gọi ngay</a>
+          <a class="btn btn-secondary" id="heroZaloBtn" href="#" target="_blank">💬 Nhắn Zalo</a>
+          <a class="btn btn-secondary" href="#san-pham">🚗 Xem sản phẩm</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat">
+            <strong>24/7</strong>
+            <span>Hỗ trợ tư vấn nhanh</span>
+          </div>
+          <div class="stat">
+            <strong>100%</strong>
+            <span>Báo giá minh bạch</span>
+          </div>
+          <div class="stat">
+            <strong>1:1</strong>
+            <span>Tư vấn riêng từng khách</span>
+          </div>
+          <div class="stat">
+            <strong>Monthly</strong>
+            <span>Cập nhật ưu đãi theo tháng</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="profile-card">
+          <div class="profile-head">
+            <div class="avatar" id="avatarText">LM</div>
+            <div>
+              <h3 id="profileName">Lê Minh Mạnh</h3>
+              <p id="profileJob">Tư vấn bán hàng VinFast</p>
+            </div>
+          </div>
+
+          <div class="contact-list">
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div>
+                <div class="contact-title">Điện thoại / Zalo</div>
+                <div class="contact-text" id="infoPhone">09xx.xxx.xxx</div>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-title">Địa chỉ</div>
+                <div class="contact-text" id="infoAddress">Nhập địa chỉ showroom/đại lý của bạn</div>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">⏰</div>
+              <div>
+                <div class="contact-title">Thời gian hỗ trợ</div>
+                <div class="contact-text">08:00 - 22:00 mỗi ngày</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-actions">
+            <a class="social-btn call" id="cardCallBtn" href="#">📞 Gọi</a>
+            <a class="social-btn zalo" id="cardZaloBtn" href="#" target="_blank">💬 Zalo</a>
+            <a class="social-btn fb" id="fbBtn" href="#" target="_blank">👤 Facebook</a>
+            <a class="social-btn page" id="pageBtn" href="#" target="_blank">📣 Fanpage</a>
+          </div>
+        </div>
+
+        <div class="floating-card">
+          <h4 id="policyTitle">Ưu đãi nổi bật trong tháng</h4>
+          <ul id="policyPreview">
+            <li>Hỗ trợ báo giá lăn bánh nhanh theo từng tỉnh.</li>
+            <li>Hỗ trợ tư vấn trả góp theo nhu cầu khách hàng.</li>
+            <li>Cập nhật chính sách ưu đãi mới nhất theo tháng.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container content-wrap">
+
+    <section class="section">
+      <div class="section-title">
+        <div>
+          <h3>Vì sao khách nên liên hệ với tôi?</h3>
+          <p>Giao diện sang trọng, rõ ràng, tạo cảm giác chuyên nghiệp như một sale thực thụ.</p>
+        </div>
+      </div>
+
+      <div class="cards-3">
+        <div class="card feature-card">
+          <div class="feature-icon">⚡</div>
+          <h4>Tư vấn nhanh và đúng nhu cầu</h4>
+          <p>Tôi hỗ trợ khách chọn sản phẩm phù hợp với mục đích sử dụng: cá nhân, gia đình, kinh doanh hoặc chạy dịch vụ.</p>
+        </div>
+
+        <div class="card feature-card">
+          <div class="feature-icon">💼</div>
+          <h4>Phong cách làm việc chuyên nghiệp</h4>
+          <p>Báo giá rõ ràng, tư vấn minh bạch, theo sát từ lúc tìm hiểu đến khi hoàn thiện hồ sơ và nhận xe.</p>
+        </div>
+
+        <div class="card feature-card">
+          <div class="feature-icon">🤝</div>
+          <h4>Đồng hành trước và sau bán</h4>
+          <p>Hỗ trợ khách hàng xuyên suốt: tư vấn, thủ tục, ưu đãi, hồ sơ trả góp và giải đáp trong quá trình sử dụng.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="uu-dai">
+      <div class="section-title">
+        <div>
+          <h3>Chính sách tốt theo từng tháng</h3>
+          <p>Bạn chỉ cần thay nội dung mỗi tháng là web luôn mới và hấp dẫn khi khách quét QR.</p>
+        </div>
+      </div>
+
+      <div class="promo-grid">
+        <div class="promo-main">
+          <h4 id="promoMainTitle">Ưu đãi trong tháng này</h4>
+          <p>Khách hàng có thể xem nhanh các quyền lợi và chính sách nổi bật ngay khi vào web.</p>
+          <ul id="promoMainList">
+            <li>Hỗ trợ báo giá lăn bánh theo tỉnh/thành.</li>
+            <li>Hỗ trợ tư vấn trả góp phù hợp khả năng tài chính.</li>
+            <li>Cập nhật ưu đãi mới nhất theo từng tháng.</li>
+            <li>Hỗ trợ khách gia đình, cá nhân và khách chạy dịch vụ.</li>
+          </ul>
+        </div>
+
+        <div class="promo-side">
+          <div class="mini-card">
+            <h5>Khách sẽ thấy gì khi quét QR?</h5>
+            <ul class="bullet">
+              <li>Thông tin cá nhân và cách liên hệ nhanh.</li>
+              <li>Chính sách tốt theo từng tháng.</li>
+              <li>Danh sách sản phẩm nổi bật.</li>
+              <li>Nút bấm xem chi tiết từng sản phẩm.</li>
+            </ul>
+          </div>
+
+          <div class="mini-card">
+            <h5>Gợi ý để web sang trọng hơn</h5>
+            <p>Bạn nên thay ảnh đại diện thật, cập nhật địa chỉ showroom, thêm chính sách tháng hiện tại và sửa mô tả sản phẩm thật chuẩn sale.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="san-pham">
+      <div class="section-title">
+        <div>
+          <h3>Sản phẩm nổi bật</h3>
+          <p>Khách bấm vào từng sản phẩm sẽ hiện phần chi tiết ngay bên dưới.</p>
+        </div>
+      </div>
+
+      <div class="products" id="productList"></div>
+
+      <div class="detail-box" id="productDetail">
+        <div class="section-title" style="margin-top:22px;">
+          <div>
+            <h3>Chi tiết sản phẩm</h3>
+            <p>Phần này tự hiện ra khi khách bấm vào sản phẩm.</p>
+          </div>
+        </div>
+
+        <div class="detail-grid">
+          <div class="detail-visual">
+            <div class="detail-badge" id="detailCode">VF</div>
+          </div>
+
+          <div class="detail-panel">
+            <h4 id="detailName">Tên sản phẩm</h4>
+            <div class="price" id="detailPrice">Giá liên hệ</div>
+            <p id="detailDesc">Mô tả sản phẩm</p>
+
+            <div class="tags" id="detailTags" style="margin-top:14px;"></div>
+
+            <h5 style="margin-top:16px;font-size:20px;color:#10203b">Điểm nổi bật</h5>
+            <ul class="detail-list" id="detailHighlights"></ul>
+
+            <div class="detail-actions">
+              <a class="btn btn-primary" id="detailCallBtn" href="#">📞 Gọi tư vấn</a>
+              <a class="btn btn-secondary" id="detailZaloBtn" href="#" target="_blank">💬 Nhắn Zalo</a>
+              <button class="btn-outline" onclick="closeDetail()">Đóng chi tiết</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about-grid" id="lien-he">
+      <div class="card">
+        <div class="section-title">
+          <div>
+            <h3>Thông tin liên hệ</h3>
+            <p>Khách có thể gọi, nhắn Zalo hoặc vào Facebook/Fanpage.</p>
+          </div>
+        </div>
+
+        <ul class="check-list">
+          <li><strong>Họ tên:</strong> <span id="aboutName">Lê Minh Mạnh</span></li>
+          <li><strong>Chức danh:</strong> <span id="aboutJob">Tư vấn bán hàng VinFast</span></li>
+          <li><strong>Số điện thoại:</strong> <span id="aboutPhone">09xx.xxx.xxx</span></li>
+          <li><strong>Địa chỉ:</strong> <span id="aboutAddress">Nhập địa chỉ showroom/đại lý của bạn</span></li>
+          <li><strong>Facebook:</strong> Link mở trực tiếp khi bấm nút.</li>
+          <li><strong>Fanpage:</strong> Link mở trực tiếp khi bấm nút.</li>
+        </ul>
+
+        <div class="hero-actions" style="margin-top:18px">
+          <a class="btn btn-primary" id="bottomCallBtn" href="#">📞 Gọi ngay</a>
+          <a class="btn btn-secondary" id="bottomZaloBtn" href="#" target="_blank">💬 Nhắn Zalo</a>
+        </div>
+      </div>
+
+      <div class="card quote">
+        <div class="section-title">
+          <div>
+            <h3>Thông điệp dành cho khách hàng</h3>
+            <p>Bạn có thể thay câu này bằng thông điệp bán hàng của riêng mình.</p>
+          </div>
+        </div>
+        <p id="closingMessage" style="font-size:18px;color:#334155">
+          “Uy tín - tận tâm - hỗ trợ nhanh. Tôi mong muốn mang đến cho khách hàng giải pháp phù hợp, chi phí hợp lý và trải nghiệm tư vấn chuyên nghiệp.”
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="footer-cta">
+        <div class="footer-cta-grid">
+          <div>
+            <h4>Sẵn sàng tư vấn và gửi báo giá cho anh/chị ngay hôm nay</h4>
+            <p>Khách chỉ cần bấm gọi hoặc nhắn Zalo để nhận tư vấn nhanh, báo giá, ưu đãi tháng và thông tin sản phẩm phù hợp.</p>
+          </div>
+          <div class="footer-buttons">
+            <a class="btn btn-primary" id="finalCallBtn" href="#">📞 Gọi tư vấn</a>
+            <a class="btn btn-secondary" id="finalZaloBtn" href="#" target="_blank">💬 Nhắn Zalo</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      © <span id="year"></span> <span id="footerName">Lê Minh Mạnh</span> - Trang thông tin cá nhân chuyên nghiệp
+    </footer>
+  </main>
+
+  <div class="sticky-bar">
+    <div class="sticky-inner">
+      <a class="call" id="stickyCallBtn" href="#">📞 Gọi ngay</a>
+      <a class="zalo" id="stickyZaloBtn" href="#" target="_blank">💬 Zalo</a>
+    </div>
+  </div>
+
+  <script>
+    // =========================================
+    // HƯỚNG DẪN SỬA NHANH:
+    // 1. Sửa toàn bộ thông tin của bạn trong CONFIG bên dưới.
+    // 2. Nếu muốn thêm ảnh đại diện thật:
+    //    - đặt file ảnh cùng thư mục với index.html
+    //    - đổi tên thành avatar.jpg
+    //    - rồi sửa nền .avatar nếu muốn dùng ảnh thật.
+    // 3. Muốn thay ưu đãi theo tháng: sửa policies.
+    // 4. Muốn thay sản phẩm: sửa trong mảng products.
+    // =========================================
+
+    const CONFIG = {
+      name: "Lê Minh Mạnh",
+      job: "Tư vấn bán hàng VinFast",
+      phone: "09xx.xxx.xxx",
+      phoneRaw: "09xxxxxxxx",
+      address: "Nhập địa chỉ showroom/đại lý của bạn",
+      introTitle: "Tư vấn chuyên nghiệp, báo giá nhanh, hỗ trợ tận tâm từ lúc chọn xe đến khi nhận xe",
+      introText: "Chào mừng anh/chị đến với trang thông tin cá nhân của tôi. Tại đây, anh/chị có thể gọi trực tiếp, nhắn Zalo, xem chính sách ưu đãi từng tháng và bấm vào từng sản phẩm để xem chi tiết.",
+      zalo: "https://zalo.me/09xxxxxxxx",
+      facebook: "https://facebook.com/",
+      fanpage: "https://facebook.com/",
+      closingMessage: "Uy tín - tận tâm - hỗ trợ nhanh. Tôi mong muốn mang đến cho khách hàng giải pháp phù hợp, chi phí hợp lý và trải nghiệm tư vấn chuyên nghiệp.",
+      policyTitle: "Ưu đãi nổi bật trong tháng",
+      policies: [
+        "Hỗ trợ báo giá lăn bánh theo tỉnh/thành.",
+        "Hỗ trợ tư vấn trả góp phù hợp khả năng tài chính.",
+        "Cập nhật ưu đãi mới nhất theo từng tháng.",
+        "Hỗ trợ khách gia đình, cá nhân và khách chạy dịch vụ."
+      ]
+    };
+
+    const products = [
+      {
+        id: "vf5",
+        name: "VinFast VF 5",
+        code: "VF5",
+        price: "Giá liên hệ - nhận ưu đãi tháng này",
+        desc: "Mẫu xe điện đô thị nhỏ gọn, phù hợp khách mua xe lần đầu, khách đi phố và gia đình trẻ.",
+        tags: ["Xe điện", "Đô thị", "Tiết kiệm"],
+        highlights: [
+          "Kích thước gọn gàng, dễ xoay trở khi đi phố.",
+          "Phù hợp khách hàng cá nhân, gia đình trẻ.",
+          "Chi phí vận hành tiết kiệm so với xe xăng.",
+          "Dễ tiếp cận và phù hợp nhiều nhu cầu sử dụng."
+        ]
+      },
+      {
+        id: "limo-green",
+        name: "VinFast Limo Green",
+        code: "LIMO",
+        price: "Giá liên hệ - tư vấn chính sách chạy dịch vụ",
+        desc: "Dòng xe phù hợp khách chạy dịch vụ, hợp đồng, sân bay hoặc gia đình cần không gian rộng rãi.",
+        tags: ["7 chỗ", "Dịch vụ", "Rộng rãi"],
+        highlights: [
+          "Không gian rộng, phù hợp chở khách hoặc gia đình.",
+          "Tối ưu cho khách hàng kinh doanh dịch vụ.",
+          "Hỗ trợ tư vấn phương án trả góp và bài toán dòng tiền.",
+          "Phù hợp cho hợp đồng, sân bay và xe gia đình."
+        ]
+      },
+      {
+        id: "vf6",
+        name: "VinFast VF 6",
+        code: "VF6",
+        price: "Giá liên hệ - nhận báo giá lăn bánh",
+        desc: "SUV điện cỡ B hiện đại, trẻ trung, phù hợp gia đình trẻ cần sự tiện nghi và phong cách.",
+        tags: ["SUV", "Hiện đại", "Gia đình"],
+        highlights: [
+          "Kiểu dáng đẹp, hiện đại và trẻ trung.",
+          "Phù hợp đi làm, đi gia đình và đi chơi cuối tuần.",
+          "Khoang nội thất tiện nghi trong phân khúc.",
+          "Mang lại trải nghiệm vận hành êm ái."
+        ]
+      },
+      {
+        id: "vf8",
+        name: "VinFast VF 8",
+        code: "VF8",
+        price: "Giá liên hệ - hỗ trợ tư vấn trả góp",
+        desc: "SUV điện rộng rãi, phù hợp khách cần không gian lớn, công nghệ tốt và trải nghiệm vận hành mạnh mẽ.",
+        tags: ["SUV", "Công nghệ", "Cao cấp"],
+        highlights: [
+          "Không gian rộng cho nhu cầu gia đình.",
+          "Vận hành mạnh mẽ, êm và chắc chắn.",
+          "Phù hợp khách cần xe đi xa, đi nhiều.",
+          "Tạo cảm giác cao cấp và hiện đại."
+        ]
+      }
+    ];
+
+    function initials(name){
+      return name.split(" ").map(w => w[0]).slice(-2).join("").toUpperCase();
+    }
+
+    function setMany(ids, value){
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.textContent = value;
+      });
+    }
+
+    function initInfo(){
+      const phoneLink = "tel:" + CONFIG.phoneRaw;
+
+      setMany(["brandName","profileName","aboutName","footerName"], CONFIG.name);
+      setMany(["brandSub","profileJob","aboutJob"], CONFIG.job);
+      setMany(["infoPhone","aboutPhone"], CONFIG.phone);
+      setMany(["infoAddress","aboutAddress"], CONFIG.address);
+
+      document.getElementById("heroTitle").textContent = CONFIG.introTitle;
+      document.getElementById("heroDesc").textContent = CONFIG.introText;
+      document.getElementById("policyTitle").textContent = CONFIG.policyTitle;
+      document.getElementById("promoMainTitle").textContent = CONFIG.policyTitle;
+      document.getElementById("closingMessage").textContent = "“" + CONFIG.closingMessage + "”";
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      const init = initials(CONFIG.name);
+      setMany(["brandLogo","avatarText"], init);
+
+      const callBtnIds = [
+        "topCallBtn","heroCallBtn","cardCallBtn","bottomCallBtn",
+        "finalCallBtn","stickyCallBtn","detailCallBtn"
+      ];
+      callBtnIds.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.href = phoneLink;
+      });
+
+      const zaloBtnIds = [
+        "heroZaloBtn","cardZaloBtn","bottomZaloBtn",
+        "finalZaloBtn","stickyZaloBtn","detailZaloBtn"
+      ];
+      zaloBtnIds.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.href = CONFIG.zalo;
+      });
+
+      document.getElementById("fbBtn").href = CONFIG.facebook;
+      document.getElementById("pageBtn").href = CONFIG.fanpage;
+
+      const policyHtml = CONFIG.policies.map(item => `<li>${item}</li>`).join("");
+      document.getElementById("policyPreview").innerHTML = policyHtml;
+      document.getElementById("promoMainList").innerHTML = policyHtml;
+    }
+
+    function renderProducts(){
+      const list = document.getElementById("productList");
+      list.innerHTML = products.map(p => `
+        <article class="product-card" onclick="showProduct('${p.id}')">
+          <div class="product-top">
+            <div class="product-badge">${p.code}</div>
+          </div>
+          <div class="product-body">
+            <h4>${p.name}</h4>
+            <p>${p.desc}</p>
+            <div class="price">${p.price}</div>
+            <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+            <div class="product-cta">
+              <span class="more">Xem chi tiết</span>
+              <span>→</span>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function showProduct(id){
+      const p = products.find(x => x.id === id);
+      if(!p) return;
+
+      document.getElementById("detailCode").textContent = p.code;
+      document.getElementById("detailName").textContent = p.name;
+      document.getElementById("detailPrice").textContent = p.price;
+      document.getElementById("detailDesc").textContent = p.desc;
+      document.getElementById("detailTags").innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join("");
+      document.getElementById("detailHighlights").innerHTML = p.highlights.map(i => `<li>${i}</li>`).join("");
+
+      const detail = document.getElementById("productDetail");
+      detail.classList.add("active");
+      detail.scrollIntoView({behavior:"smooth", block:"start"});
+    }
+
+    function closeDetail(){
+      document.getElementById("productDetail").classList.remove("active");
+    }
+
+    initInfo();
+    renderProducts();
+  </script>
+</body>
+</html>
